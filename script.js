@@ -1,11 +1,19 @@
 import { pokemonArray } from "./data/pokemon.js";
 
+// Create a deep copy
+let displayCards = [...pokemonArray];
+// Select objects
 let cardContainer = document.querySelector(".card-container");
+const nameSearchBar = document.querySelector("#name-search");
+const resetButton = document.querySelector(".reset-btn");
 
 
+// Declare functions
 const displayPokemons = () => {
 
-    let cards = pokemonArray.map((pokemon) => {
+    cardContainer.innerHTML = "";
+
+    let cards = displayCards.map((pokemon) => {
         return `<div class="card">
         <img src="${pokemon.sprite}" alt="card-image" class="card__image">
 
@@ -23,5 +31,26 @@ const displayPokemons = () => {
 
 };
 
-window.addEventListener("load", displayPokemons);
+const searchByNameOrType = (event) => {
 
+    const userInput = event.target.value.toLowerCase();
+    displayCards = pokemonArray.filter((pokemon) => {
+        return (pokemon.name === userInput || pokemon.types.includes(userInput));
+    });
+
+    displayPokemons();
+
+};
+
+const reset = () => {
+    // reset and display all pokemons
+    displayCards = [...pokemonArray];
+    displayPokemons();
+};
+
+// Attach Event Listener
+nameSearchBar.addEventListener("input", searchByNameOrType);
+resetButton.addEventListener("click", reset);
+
+// display pokemon cards
+displayPokemons();
