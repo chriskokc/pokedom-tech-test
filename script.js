@@ -1,16 +1,27 @@
 import { pokemonArray } from "./data/pokemon.js";
 
+let cardContainer = document.querySelector(".card-container");
 
-const pokemonImage = document.querySelector(".card__image");
-const pokemonName = document.querySelector(".card__heading");
-const pokemonDescription = document.querySelector(".card__text");
 
-const renderCard = () => {
-    pokemonImage.src = pokemonArray[0]["sprite"];
-    pokemonName.innerHTML = pokemonArray[0].name;
-    pokemonDescription.innerHTML = `${pokemonName.innerHTML}#${pokemonArray[0].id} 
-    is a ${ pokemonArray[0].types[0]} & ${ pokemonArray[0].types[1]} type pokemon.`;
+const displayPokemons = () => {
+
+    let cards = pokemonArray.map((pokemon) => {
+        return `<div class="card">
+        <img src="${pokemon.sprite}" alt="card-image" class="card__image">
+
+        <div class="card__content">
+          <h3 class="card__heading">${pokemon.name}</h3>
+          <h4 class="card__text">${pokemon.name}#${pokemon.id} 
+          is a ${pokemon.types[0]} & ${pokemon.types[1]} type pokemon.</h4>
+        </div>
+      </div>`
+    });
+
+    cards.forEach((card) => {
+        cardContainer.innerHTML += card;
+    });
+
 };
 
-renderCard();
+window.addEventListener("load", displayPokemons);
 
